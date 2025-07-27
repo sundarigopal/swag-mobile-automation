@@ -18,7 +18,7 @@ exports.config = {
     capabilities: [{
             "platformName": "Android",
             "appium:platformVersion": "11",
-            "appium:deviceName": ".*",
+            "appium:deviceName": "Android Emulator",
             "appium:automationName": "UiAutomator2",
             "appium:app": path.resolve('./apps/Android.SauceLabs.Mobile.Sample.app.2.7.1.apk'),
             "appium:autoGrantPermissions": true,
