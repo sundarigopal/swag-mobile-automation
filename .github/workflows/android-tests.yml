@@ -55,32 +55,33 @@ jobs:
           emulator-options: -no-window -no-audio -no-snapshot
           disable-animations: true
           script: |
-              echo "Waiting for emulator to boot..."
-              adb wait-for-device
-              
-              # Retry loop to wait until boot is complete
-              boot_completed=""
-              retry=0
-              while [ "$boot_completed" != "1" ] && [ $retry -lt 30 ]; do
-                boot_completed=$(adb -s emulator-5554 shell getprop sys.boot_completed | tr -d '\r')
-                echo "Boot status: $boot_completed"
-                sleep 5
-                retry=$((retry+1))
-              done
-              
-              if [ "$boot_completed" != "1" ]; then
-                echo "Emulator failed to boot in time"
-                exit 1
-              fi
-              
-              echo "Emulator booted successfully"
-              
-              echo "Starting Appium..."
-              nohup appium > appium.log 2>&1 &
-              sleep 10
-            
+            echo "Waiting for emulator to boot..."
+            adb wait-for-device
+
+            # Retry loop to wait until boot is complete
+            boot_completed=""
+            retry=0
+            while [ "$boot_completed" != "1" ] && [ $retry -lt 30 ]; do
+              boot_completed=$(adb -s emulator-5554 shell getprop sys.boot_completed | tr -d '\r')
+              echo "Boot status: $boot_completed"
+              sleep 5
+              retry=$((retry+1))
+            done
+
+            if [ "$boot_completed" != "1" ]; then
+              echo "Emulator failed to boot in time"
+              exit 1
+            fi
+
+            echo "Emulator booted successfully"
+
+            echo "Starting Appium..."
+            nohup appium > appium.log 2>&1 &
+            sleep 10
+
             adb devices
             npx wdio run wdio.conf.js
+      
 
       - name: Upload Failure Screenshots
         if: failure()
