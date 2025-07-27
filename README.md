@@ -226,6 +226,7 @@ bash
 
 ## Limitations
 
+
 1. Only Android is covered.
 2. Emulator should be pre-booted manually before CI or local runs.
 3. App must be installed or available locally (or provide APK path in capabilities).
