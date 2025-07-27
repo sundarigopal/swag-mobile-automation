@@ -48,38 +48,16 @@ jobs:
       - name: Launch Emulator and Run Tests
         uses: reactivecircus/android-emulator-runner@v2
         with:
-          api-level: 33
-          target: google_apis_playstore
+          api-level: 30
+          target: google_apis
           arch: x86_64
           profile: pixel_4
           emulator-options: -no-window -no-audio -no-snapshot
           disable-animations: true
           script: |
             echo "Waiting for emulator to boot..."
-            adb start-server
             adb wait-for-device
-
-            # Ensure emulator-5554 is visible and not offline
-            retry=0
-            while [ $retry -lt 10 ]; do
-              status=$(adb devices | grep emulator-5554 | awk '{print $2}')
-              if [ "$status" == "device" ]; then
-                echo "Device is online"
-                break
-              else
-                echo "Device status: $status (retry $retry)"
-                sleep 5
-                retry=$((retry+1))
-              fi
-            done
-
-            if [ "$status" != "device" ]; then
-              echo "Emulator stuck offline"
-              adb kill-server
-              exit 1
-            fi
-
-            # Wait for system boot
+            
             boot_completed=""
             retry=0
             while [ "$boot_completed" != "1" ] && [ $retry -lt 30 ]; do
@@ -88,14 +66,12 @@ jobs:
               sleep 5
               retry=$((retry+1))
             done
-
+            
             if [ "$boot_completed" != "1" ]; then
               echo "Emulator failed to boot in time"
               exit 1
             fi
-
-            echo "Emulator booted successfully"
-
+            
             echo "Starting Appium..."
             nohup appium > appium.log 2>&1 &
             sleep 10

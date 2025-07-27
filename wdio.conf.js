@@ -17,7 +17,7 @@ exports.config = {
     maxInstances: 1,
     capabilities: [{
             "platformName": "Android",
-            "appium:platformVersion": "13",
+            "appium:platformVersion": "11",
             "appium:deviceName": ".*",
             "appium:automationName": "UiAutomator2",
             "appium:app": path.resolve('./apps/Android.SauceLabs.Mobile.Sample.app.2.7.1.apk'),
