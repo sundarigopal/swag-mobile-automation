@@ -17,15 +17,15 @@ exports.config = {
     maxInstances: 1,
     capabilities: [{
             "platformName": "Android",
-            "appium:platformVersion": "13",              // Match your emulator version
-            "appium:deviceName": "emulator-5554",         // Match your emulator name
+            "appium:platformVersion": "13",
+            "appium:deviceName": ".*",
             "appium:automationName": "UiAutomator2",
-            "appium:app": "/Users/gnanasundarig/Downloads/Android.SauceLabs.Mobile.Sample.app.2.7.1.apk",
+            "appium:app": path.resolve('./apps/Android.SauceLabs.Mobile.Sample.app.2.7.1.apk'),
             "appium:autoGrantPermissions": true,
             "appium:appPackage": "com.swaglabsmobileapp",
             "appium:appActivity": "com.swaglabsmobileapp.SplashActivity",
             "appium:appWaitActivity": "*",
-            "appium:noReset": false, // ✅ Ensures fresh app state
+            "appium:noReset": false,
             "appium:fullReset": true,
 
     }],

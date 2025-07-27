@@ -143,6 +143,8 @@ This will:
 ```
 .
 ├── .github/workflows/         # GitHub Actions for CI
+├── apps/
+│   └── Android.SauceLabs.Mobile.Sample.app.2.7.1.apk
 ├── specs/                     # Test specs file
 │   └── swagAppTest.spec.js
 ├── pageobjects/               # Page Object Models
