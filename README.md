@@ -1,0 +1,1 @@
+# swag-mobile-automation
