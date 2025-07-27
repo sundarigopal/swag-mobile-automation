@@ -1,0 +1,54 @@
+name: Android UI Tests
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: ⬇️ Download Appium + Android Emulator Tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libgl1-mesa-dev
+          npm install -g appium
+          appium -v
+          npm install -g adbkit
+
+      - name: ⚙️ Start Appium Server in Background
+        run: |
+          nohup appium > appium.log 2>&1 &
+          sleep 10
+
+      - name: 📱 (Optional) Install Android SDK Dependencies
+        if: false
+        run: |
+          echo "This step is skipped since emulator setup is heavy in CI."
+          # You can configure GitHub-hosted runners with emulator if needed
+          # But usually we test on real devices / BrowserStack / local CI
+
+      - name: 🚀 Run WebdriverIO Tests
+        run: npx wdio run wdio.conf.js
+
+      - name: 📤 Upload Failure Screenshots
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: failure-screenshots
+          path: reports/screenshots/
+
